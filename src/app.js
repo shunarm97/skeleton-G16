@@ -10,6 +10,7 @@ const {port} = require('./config')
 
 //* Routes
 const usersRouter = require('./users/users.router')
+const authRouter = require('./auth/auth.router')
 
 app.use(express.json())
 
@@ -52,6 +53,7 @@ app.get('/',(req,res) => {
     
 
 app.use('/api/v1/users', usersRouter)
+app.use('/api/v1/auth', authRouter)
 
 
 

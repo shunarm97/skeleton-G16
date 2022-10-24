@@ -42,7 +42,7 @@ const resgisterUser = (req, res) => {
             emial: 'example@example.com',
             password: 'string',
             phone: '+51 123456789',
-            birthday: 'YYY/MM/DD'
+            birthday: 'YYYY/MM/DD'
         }})
     }
 }
