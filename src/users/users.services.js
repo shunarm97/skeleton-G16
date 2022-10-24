@@ -39,7 +39,7 @@ const resgisterUser = (req, res) => {
         res.status(400).json({message : 'All fields must be complete', fields : {
             firstName: 'string',
             lastName: 'string',
-            emial: 'example@example.com',
+            email: 'example@example.com',
             password: 'string',
             phone: '+51 123456789',
             birthday: 'YYYY/MM/DD'
@@ -80,12 +80,52 @@ const deleteUser = (req, res) => {
     })
 }
 
+//! My user services
 
+const getMyUser = (req, res) => {
+    const id = req.user.id  //? req.user contiene la informacion del token desencriptada
+    usersControllers.getUserById(id)
+    .then(response => {
+            res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(400).json({message: err.message})
+    })
+}
+
+
+const deleteMyUser = (req, res) => {
+    const id = req.user.id
+    usersControllers.deleteUser(id)
+    .then(() => {
+        res.status(204).json()
+    })
+    .catch(err => {
+        res.status(400).json({message: err.message})
+    })
+}
+
+
+const editMyUser = (req, res) => {
+    const id = req.user.id
+    const {firstName, lastName, phone, birthday, country, gender} = req.body
+
+    usersControllers.updateUser(id, {firstName, lastName, phone, birthday, country, gender})
+    .then(() => {
+        res.status(200).json({message: 'You user is edit seccestify'})
+    })
+    .catch(err => {
+        res.status(400).json({message: err.message})
+    })
+}
 
 module.exports = {
     getAllUsers,
     getUserById,
     patchUser,
     deleteUser,
-    resgisterUser
+    resgisterUser,
+    getMyUser,
+    deleteMyUser,
+    editMyUser
 }
