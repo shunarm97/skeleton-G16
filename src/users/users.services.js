@@ -93,7 +93,7 @@ const getMyUser = (req, res) => {
     })
 }
 
-
+//? se eliminara definitivamente de la base de datos
 const deleteMyUser = (req, res) => {
     const id = req.user.id
     usersControllers.deleteUser(id)
@@ -106,7 +106,22 @@ const deleteMyUser = (req, res) => {
 }
 
 
-const editMyUser = (req, res) => {
+//? se quedara inactivo por si desea recuperarla
+const deleteMyUserTwo = (req, res) => {
+    const id = req.user.id
+    usersControllers.updateUser(id, {status:'inactive'})
+    .then(() => {
+        res.status(201).json({message: 'Your user is inactive'})
+    })
+    .catch(() => {
+        res.status(400).json({message: err.message})
+    })
+}
+
+
+
+
+const patchMyUser = (req, res) => {
     const id = req.user.id
     const {firstName, lastName, phone, birthday, country, gender} = req.body
 
@@ -127,5 +142,6 @@ module.exports = {
     resgisterUser,
     getMyUser,
     deleteMyUser,
-    editMyUser
+    patchMyUser,
+    deleteMyUserTwo
 }

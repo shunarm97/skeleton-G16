@@ -4,14 +4,19 @@ const Users = require('../models/users.models')
 const { hashPassword } = require('../utils/crypto')
 
 const getAllUsers = async () => {
-    const data = Users.findAll()
+    const data = Users.findAll({
+        where: {
+            status: 'active'
+        }
+    })
     return data
 }
 
 const getUserById = async (id) => {
     const data = Users.findOne({
         where : {
-            id : id
+            id : id,
+            status: 'active'
         }
     })
     return data
@@ -55,7 +60,8 @@ const deleteUser = async (id) => {
 const getByEmail =async (email) => {
     const response = await Users.findOne({
         where : {
-            email : email
+            email : email,
+            status: 'active'
         }
     })
     return response

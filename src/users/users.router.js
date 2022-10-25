@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const { session } = require('passport')
 const passport = require('passport')
+const adminValidate = require('../middlewares/role.middleware')
 
 const userServices = require('./users.services')
 
@@ -21,12 +21,15 @@ router.route('/me')
             userServices.getMyUser)
         .patch(
             passport.authenticate('jwt', {session:false}),
-            userServices.editMyUser)
+            userServices.patchMyUser)
         .delete(
             passport.authenticate('jwt', {session:false}),
             userServices.deleteMyUser)
+        .patch(
+            passport.authenticate('jwt', {session: false}),
+            userServices.deleteMyUserTwo)
 
-
+ 
         
 
 
@@ -34,7 +37,17 @@ router.route('/me')
 //? rutas dinamicas por ID 
 router.route('/:id')
     .get(userServices.getUserById)
-    .patch(userServices.patchUser)
-    .delete(userServices.deleteUser)
+    .patch(
+        passport.authenticate('jwt', {session:false}),
+        adminValidate,
+        userServices.patchUser)
+    .delete(
+        passport.authenticate('jwt', {session:false}),
+        adminValidate,
+        userServices.deleteUser)
 
     module.exports = router
+
+
+    
+
